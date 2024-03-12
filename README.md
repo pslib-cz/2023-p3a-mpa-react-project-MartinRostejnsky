@@ -2,7 +2,7 @@
 
 ## Téma
 
-Tady bude krátký a úderný popis o účelu, významu, funkcionalitě...
+Ovládací/monitorovací panel pro hosting webových aplikací
 
 ## Odkazy pro vývoj
 
