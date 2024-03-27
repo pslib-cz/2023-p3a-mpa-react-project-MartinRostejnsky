@@ -1,8 +1,8 @@
-# Název mého projektu, programu, hry...
+# Interaktivní kalendář
 
 ## Téma
 
-Ovládací/monitorovací panel pro hosting webových aplikací
+React komponenta interaktivního kalendáře 
 
 ## Odkazy pro vývoj
 
