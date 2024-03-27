@@ -1,5 +1,5 @@
 {
-  "name": "2023-p3a-mpa-react-project-martinrostejnsky",
+  "name": "@pslib-cz/2023-p3a-mpa-react-project-martinrostejnsky",
   "version": "0.0.1",
   "description": "React komponenta interaktivního kalendáře",
   "main": "dist/cjs/index.ts",
@@ -27,5 +27,8 @@
     "tslib": "^2.6.2",
     "typescript": "^5.4.3"
   },
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/pslib-cz" 
+  }
 }
