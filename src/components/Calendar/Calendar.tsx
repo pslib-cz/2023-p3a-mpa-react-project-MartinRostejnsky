@@ -31,11 +31,18 @@ const Calendar = (props: ICalendarProps) => {
     const [date, setDate] = useState(props.data?.date ?? new Date());
     const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)
     const locale = props.locale ?? Locale.EN;
+    const backgroundColor = props.backgroundColor ?? 'white';
+    const color = props.primaryColor ?? 'black';
+
+    //Calculate some date stuff
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const monthLength = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const lastMonthLength = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
 
     return (
         <div className={styles.container} style={{
-            color: props.primaryColor ?? 'black',
-            backgroundColor: props.backgroundColor ?? 'white',
+            color: color,
+            backgroundColor: backgroundColor,
             border: props.border ?? '1px solid black',
             borderRadius: props.borderRadius ?? '2em',
             boxShadow: props.boxShadow ?? '0 0 10px rgba(0, 0, 0, 0.1)',
@@ -43,9 +50,9 @@ const Calendar = (props: ICalendarProps) => {
             {props.data &&
                 <>
                 <div className={styles.header}>
-                    <div>
-                        <button onClick={() => setDate(new Date())}>{Localization[locale].buttons.today}</button>
-                        <button onClick={() => {
+                    <div className={styles.buttongroup} style={{borderColor: color}}>
+                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setDate(new Date())}>{Localization[locale].buttons.today}</button>
+                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => {
                             switch (mode) {
                                 case CalendarMode.MONTH:
                                     setDate(d => new Date(d.getFullYear(), d.getMonth() - 1, d.getDate()));
@@ -60,7 +67,7 @@ const Calendar = (props: ICalendarProps) => {
                                     break;
                             }
                         }}>-</button>
-                        <button onClick={() => {
+                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => {
                             switch (mode) {
                                 case CalendarMode.MONTH:
                                     setDate(d => new Date(d.getFullYear(), d.getMonth() + 1, d.getDate()));
@@ -78,13 +85,15 @@ const Calendar = (props: ICalendarProps) => {
                     </div>
                     <div>{`${Localization[locale].months[date?.getMonth() ?? 0]} ${date?.getFullYear()}`}</div>
                     <div>
-                        <button onClick={() => setMode(CalendarMode.MONTH)}>{Localization[locale].buttons.month}</button>
-                        <button onClick={() => setMode(CalendarMode.WEEK)}>{Localization[locale].buttons.week}</button>
-                        <button onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</button>
+                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setMode(CalendarMode.MONTH)}>{Localization[locale].buttons.month}</button>
+                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setMode(CalendarMode.WEEK)}>{Localization[locale].buttons.week}</button>
+                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</button>
                     </div>
                 </div>
                 <div>
-                <table>
+                    <table className={styles.table} style={{
+                        border: '1px solid black',
+                    }}>
                         <thead>
                             <tr>
                                 {Localization[locale].days.map((day, index) => (

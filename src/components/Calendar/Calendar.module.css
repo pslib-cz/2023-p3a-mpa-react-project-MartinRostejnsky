@@ -3,6 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    padding: 2em;
     justify-content: center;
     text-align: center;
 }
@@ -11,5 +12,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 2em;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.buttongroup {
+    border-width: 1px;
+    display: inline-flex;
+    white-space: nowrap;
+    border-radius: 0.5em;
+}
+
+.buttongroup > button {
+    border-radius: 0;
+    transform: none;
+}
+
+.buttongroup > button:hover {
+    border: none;
 }
