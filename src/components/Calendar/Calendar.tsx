@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styles from './Calendar.module.css';
 
 interface ICalendarEvent {
-
+    
+    start: Date;
+    end: Date;
 }
 
 interface ICalendarData {
