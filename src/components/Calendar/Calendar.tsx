@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './Calendar.module.css';
 import { ActionType, CalendarContext, CalendarProvider } from './Context';
-import Button from './Buttons';
+import {Button,ButtonGroup} from './Buttons';
+import { Locale, Localization } from './Localization';
 
 export interface ICalendarEvent {
     start: Date;
@@ -33,9 +34,11 @@ export enum CalendarMode {
 const Calendar = (props: ICalendarProps) => {
     const { 
         state, 
+        style,
+        locale,
         dispatch, 
-        style, 
-        setStyle 
+        setStyle,
+        setLocale,
     } = useContext(CalendarContext);
     const { date } = state;
     const { primaryColor, backgroundColor} = style;
@@ -48,12 +51,10 @@ const Calendar = (props: ICalendarProps) => {
             primaryColor: props.primaryColor ?? 'black',
             backgroundColor: props.backgroundColor ?? 'white',
         });
+        setLocale(props.locale ?? Locale.EN);
     }, [props]);
 
-    const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)
-    const locale = props.locale ?? Locale.EN;
-    
-
+    const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)    
     //Calculate some date stuff
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     const monthLength = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -70,7 +71,7 @@ const Calendar = (props: ICalendarProps) => {
             {props.data &&
                 <>
                 <div className={styles.header}>
-                    <div className={styles.buttongroup} style={{borderColor: primaryColor}}>
+                    <ButtonGroup>
                         <Button onClick={() => dispatch({type: ActionType.SET_DATE,date: new Date()})}>{Localization[locale].buttons.today}</Button>
                         <Button onClick={() => {
                             switch (mode) {
@@ -102,13 +103,13 @@ const Calendar = (props: ICalendarProps) => {
                                     break;
                             }
                         }}>+</Button>
-                    </div>
+                    </ButtonGroup>
                     <div>{`${Localization[locale].months[date?.getMonth() ?? 0]} ${date?.getFullYear()}`}</div>
-                    <div>
+                    <ButtonGroup>
                         <Button onClick={() => setMode(CalendarMode.MONTH)}>{Localization[locale].buttons.month}</Button>
                         <Button onClick={() => setMode(CalendarMode.WEEK)}>{Localization[locale].buttons.week}</Button>
                         <Button onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</Button>
-                    </div>
+                    </ButtonGroup>
                 </div>
                 <div>
                     <table className={styles.table} style={{
@@ -152,54 +153,3 @@ const CalendarWrapper : React.FC<ICalendarProps> = (props) => {
 }
 
 export default CalendarWrapper;
-
-
-//Localization
-export enum Locale {
-    EN = 'en',
-    CZ = 'cz',
-    RU = 'ru',
-}
-
-const Localization = {
-    [Locale.EN]: {
-        days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        messages: {
-            no_data: 'This calendar has no data.',
-        },
-        buttons: {
-            today: 'Today',
-            month: 'Month',
-            week: 'Week',
-            day: 'Day',
-        },
-    },
-    [Locale.CZ]: {
-        days: ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'],
-        months: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-        messages: {
-            no_data: 'Tento kalendář nemá žádná data.',
-        },
-        buttons: {
-            today: 'Dnes',
-            month: 'Měsíc',
-            week: 'Týden',
-            day: 'Den',
-        },
-    },
-    [Locale.RU]: {
-        days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-        months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-        messages: {
-            no_data: 'В этом календаре нет данных.',
-        },
-        buttons: {
-            today: 'Сегодня',
-            month: 'Месяц',
-            week: 'Неделя',
-            day: 'День',
-        },
-    },
-};
-

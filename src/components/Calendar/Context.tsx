@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useState } from 'react';
 import { ICalendarData, ICalendarEvent } from './Calendar';
+import { Locale } from './Localization';
 
 interface CalendarStyle {
     primaryColor?: string;
@@ -14,8 +15,9 @@ interface CalendarContextState {
     state: ICalendarData;
     dispatch: React.Dispatch<ReducerAction>;
     style: CalendarStyle;
-
-    setStyle: React.Dispatch<React.SetStateAction<CalendarStyle>>
+    setStyle: React.Dispatch<React.SetStateAction<CalendarStyle>>;
+    locale: Locale;
+    setLocale: React.Dispatch<React.SetStateAction<Locale>>;
 }
 
 // Create the context
@@ -25,6 +27,8 @@ export const CalendarContext = createContext<CalendarContextState>({
         date: new Date(),
         events: [],
     },
+    locale: Locale.EN,
+    setLocale: () => null,
     dispatch: () => null,
     setStyle: () => null,
 });
@@ -41,9 +45,17 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
     });
 
     const [style, setStyle] = useState<CalendarStyle>({});
+    const [locale, setLocale] = useState(Locale.EN);
 
     return (
-        <CalendarContext.Provider value={{ state, dispatch, style, setStyle }}>
+        <CalendarContext.Provider value={{ 
+            state,
+            style,
+            locale,
+            dispatch,
+            setStyle,
+            setLocale,
+            }}>
             {children}
         </CalendarContext.Provider>
     );
