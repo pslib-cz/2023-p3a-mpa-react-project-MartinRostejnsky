@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './Calendar.module.css';
-import { CalendarProvider } from './Context';
+import { ActionType, CalendarContext, CalendarProvider } from './Context';
 
 export interface ICalendarEvent {
     start: Date;
@@ -30,7 +30,13 @@ export enum CalendarMode {
 }
 
 const Calendar = (props: ICalendarProps) => {
-    const [date, setDate] = useState(props.data?.date ?? new Date());
+    const { state, dispatch } = useContext(CalendarContext);
+    const { date, events } = state;
+
+    useEffect(() => {
+        dispatch({ type: ActionType.SET_DATA, data: props.data ?? { date: new Date(), events: [] }});
+    }, [props.data])
+
     const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)
     const locale = props.locale ?? Locale.EN;
     const backgroundColor = props.backgroundColor ?? 'white';
@@ -53,17 +59,17 @@ const Calendar = (props: ICalendarProps) => {
                 <>
                 <div className={styles.header}>
                     <div className={styles.buttongroup} style={{borderColor: color}}>
-                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setDate(new Date())}>{Localization[locale].buttons.today}</button>
+                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => dispatch({type: ActionType.SET_DATE,date: new Date()})}>{Localization[locale].buttons.today}</button>
                         <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => {
                             switch (mode) {
                                 case CalendarMode.MONTH:
-                                    setDate(d => new Date(d.getFullYear(), d.getMonth() - 1, d.getDate()));
+                                    dispatch({type: ActionType.SET_MONTH, month: date.getMonth() - 1});
                                     break;
                                 case CalendarMode.WEEK:
-                                    setDate(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7));
+                                    dispatch({type: ActionType.SET_WEEK, week: date.getDate() - 7});
                                     break;
                                 case CalendarMode.DAY:
-                                    setDate(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1));
+                                    dispatch({type: ActionType.SET_DAY, day: date.getDate() - 1});
                                     break;
                                 default:
                                     break;
@@ -72,13 +78,13 @@ const Calendar = (props: ICalendarProps) => {
                         <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => {
                             switch (mode) {
                                 case CalendarMode.MONTH:
-                                    setDate(d => new Date(d.getFullYear(), d.getMonth() + 1, d.getDate()));
+                                    dispatch({type: ActionType.SET_MONTH, month: date.getMonth() + 1});
                                     break;
                                 case CalendarMode.WEEK:
-                                    setDate(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7));
+                                    dispatch({type: ActionType.SET_WEEK, week: date.getDate() + 7});
                                     break;
                                 case CalendarMode.DAY:
-                                    setDate(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1));
+                                    dispatch({type: ActionType.SET_DAY, day: date.getDate() + 1});
                                     break;
                                 default:
                                     break;
@@ -125,12 +131,11 @@ const Calendar = (props: ICalendarProps) => {
     );
 };
 
-const CalendarWrapper = () => {
+const CalendarWrapper : React.FC<ICalendarProps> = (props) => {
     return (
         <CalendarProvider>
-            <Calendar />
+            <Calendar {...props} />
         </CalendarProvider>
-
     );
 }
 

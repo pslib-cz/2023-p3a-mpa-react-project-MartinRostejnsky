@@ -34,6 +34,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
 };
 
 const reducer = (state: ICalendarData, action: ReducerAction) => {
+    console.log(action);
     switch (action.type) {
         case ActionType.ADD_EVENT:
             return {
