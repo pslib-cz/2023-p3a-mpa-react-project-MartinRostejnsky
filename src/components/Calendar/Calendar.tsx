@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styles from './Calendar.module.css';
+import { CalendarProvider } from './Context';
 
-interface ICalendarEvent {
-    
+export interface ICalendarEvent {
     start: Date;
     end: Date;
 }
 
-interface ICalendarData {
+export interface ICalendarData {
     date: Date;
     events: ICalendarEvent[];
 }
@@ -125,8 +125,19 @@ const Calendar = (props: ICalendarProps) => {
     );
 };
 
-export default Calendar;
+const CalendarWrapper = () => {
+    return (
+        <CalendarProvider>
+            <Calendar />
+        </CalendarProvider>
 
+    );
+}
+
+export default CalendarWrapper;
+
+
+//Localization
 export enum Locale {
     EN = 'en',
     CZ = 'cz',
@@ -174,3 +185,4 @@ const Localization = {
         },
     },
 };
+
