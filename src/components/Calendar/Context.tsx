@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { ICalendarData, ICalendarEvent } from './Calendar';
 import { Locale } from './Localization';
 
@@ -13,10 +13,11 @@ interface CalendarStyle {
 // Define the initial state of the context
 interface CalendarContextState {
     state: ICalendarData;
-    dispatch: React.Dispatch<ReducerAction>;
     style: CalendarStyle;
-    setStyle: React.Dispatch<React.SetStateAction<CalendarStyle>>;
     locale: Locale;
+    days: Date[];
+    dispatch: React.Dispatch<ReducerAction>;
+    setStyle: React.Dispatch<React.SetStateAction<CalendarStyle>>;
     setLocale: React.Dispatch<React.SetStateAction<Locale>>;
 }
 
@@ -28,6 +29,7 @@ export const CalendarContext = createContext<CalendarContextState>({
         events: [],
     },
     locale: Locale.EN,
+    days: [],
     setLocale: () => null,
     dispatch: () => null,
     setStyle: () => null,
@@ -47,11 +49,39 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
     const [style, setStyle] = useState<CalendarStyle>({});
     const [locale, setLocale] = useState(Locale.EN);
 
+    const [days, setDays] = useState<Date[]>([]);
+
+    //Calculate some date stuff
+    const [firstDay, setFirstDay] = useState(new Date(state.date.getFullYear(), state.date.getMonth(), 1).getDay());
+    const [monthLength, setMonthLength] = useState(new Date(state.date.getFullYear(), state.date.getMonth() + 1, 0).getDate());
+    const [lastMonthLength, setLastMonthLength] = useState(new Date(state.date.getFullYear(), state.date.getMonth(), 0).getDate());
+
+    useEffect(() => {
+        const dayOfWeek = new Date(state.date.getFullYear(), state.date.getMonth(), 1).getDay();
+        const adjustedFirstDay = (dayOfWeek + 6) % 7; // Calculate adjusted first day of the week (Monday start)
+        
+        setFirstDay(adjustedFirstDay);
+        setMonthLength(new Date(state.date.getFullYear(), state.date.getMonth() + 1, 0).getDate());
+        setLastMonthLength(new Date(state.date.getFullYear(), state.date.getMonth(), 0).getDate());
+    
+        // Calculate days using adjustedFirstDay
+        const newDays = [];
+        const startDay = -adjustedFirstDay;  
+        const totalDaysDisplayed = startDay + monthLength + (7 - ((monthLength + adjustedFirstDay) % 7)) % 7;
+    
+        for (let i = startDay; i < totalDaysDisplayed; i++) {
+            newDays.push(new Date(state.date.getFullYear(), state.date.getMonth(), i + 1));
+        }
+    
+        setDays(newDays);
+    }, [monthLength, lastMonthLength, state.date]);
+    
     return (
         <CalendarContext.Provider value={{ 
             state,
             style,
             locale,
+            days,
             dispatch,
             setStyle,
             setLocale,
@@ -62,7 +92,6 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
 };
 
 const reducer = (state: ICalendarData, action: ReducerAction) => {
-    console.log(action);
     switch (action.type) {
         case ActionType.ADD_EVENT:
             return {

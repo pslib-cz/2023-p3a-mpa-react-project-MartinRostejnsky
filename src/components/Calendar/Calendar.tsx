@@ -3,7 +3,7 @@ import styles from './Calendar.module.css';
 import { ActionType, CalendarContext, CalendarProvider } from './Context';
 import {Button,ButtonGroup} from './Buttons';
 import { Locale, Localization } from './Localization';
-import { DateIndicator, Header, Calendar as CalendarComponent, TableHead } from './Parts';
+import { DateIndicator, Header, Calendar as CalendarComponent, TableHead, TableBody, TableField } from './Parts';
 
 export interface ICalendarEvent {
     start: Date;
@@ -37,6 +37,7 @@ const Calendar = (props: ICalendarProps) => {
         state, 
         style,
         locale,
+        days,
         dispatch, 
         setStyle,
         setLocale,
@@ -57,9 +58,10 @@ const Calendar = (props: ICalendarProps) => {
 
     const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)    
     //Calculate some date stuff
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    const monthLength = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    const lastMonthLength = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+
+    useEffect(() => {
+        console.log(days)
+    }, [days]);
 
     return (
         <div className={styles.container} style={{
@@ -114,6 +116,13 @@ const Calendar = (props: ICalendarProps) => {
                 </Header>
                 <CalendarComponent>
                     <TableHead />
+                    <TableBody>
+                        {days.map((day, index) => {
+                            return (
+                                <TableField key={index} day={day.getDate()} />
+                            )
+                        })}
+                    </TableBody>
                 </CalendarComponent>
                 </>
                 

@@ -34,10 +34,30 @@ const TableHead = () => {
     )
 }
 
+const TableBody = ({children}: {children: React.ReactNode}) => {
+    return (
+        <div className={styles.table__body}>{children}</div>
+    )
+
+}
+
+const TableField = ({day}: {day: number}) => {
+    return (
+        <div className={styles.table__field}>{day}</div>
+    )
+}
+
 const Calendar = ({children}: {children: React.ReactNode}) => {
     return (
         <div className={styles.calendar}>{children}</div>
     )
 }
 
-export { DateIndicator, Header, TableHead, Calendar};
+export { 
+    DateIndicator,
+    Header,
+    TableHead,
+    TableBody,
+    TableField,
+    Calendar
+};

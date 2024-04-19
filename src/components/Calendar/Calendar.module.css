@@ -38,10 +38,10 @@
     border: none;
 }
 
-.table__head {
-    display: flex;
+.table__head, .table__body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     width: 100%;
-    justify-content: space-between;
 }
 .table__head > div {
     width: 100%;
@@ -53,4 +53,13 @@
     font-weight: bold;
     color: white;
     background-color: #4CAF50; /* TODO: styl generovany copilotem, eventuelne by chtelo predelat */
+}
+.table__field {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
 }
