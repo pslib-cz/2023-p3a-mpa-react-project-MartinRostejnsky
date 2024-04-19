@@ -1,19 +1,32 @@
 import React, { createContext, useReducer, useState } from 'react';
 import { ICalendarData, ICalendarEvent } from './Calendar';
 
+interface CalendarStyle {
+    primaryColor?: string;
+    backgroundColor?: string;
+    border?: string;
+    borderRadius?: string;
+    boxShadow?: string;
+}
+
 // Define the initial state of the context
 interface CalendarContextState {
     state: ICalendarData;
     dispatch: React.Dispatch<ReducerAction>;
+    style: CalendarStyle;
+
+    setStyle: React.Dispatch<React.SetStateAction<CalendarStyle>>
 }
 
 // Create the context
 export const CalendarContext = createContext<CalendarContextState>({
+    style: {},
     state: {
         date: new Date(),
         events: [],
     },
     dispatch: () => null,
+    setStyle: () => null,
 });
 
 // Create a provider component
@@ -26,8 +39,11 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
         date: new Date(),
         events: [],
     });
+
+    const [style, setStyle] = useState<CalendarStyle>({});
+
     return (
-        <CalendarContext.Provider value={{ state, dispatch }}>
+        <CalendarContext.Provider value={{ state, dispatch, style, setStyle }}>
             {children}
         </CalendarContext.Provider>
     );

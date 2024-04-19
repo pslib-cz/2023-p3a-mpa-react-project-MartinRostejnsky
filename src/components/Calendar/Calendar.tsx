@@ -30,8 +30,14 @@ export enum CalendarMode {
 }
 
 const Calendar = (props: ICalendarProps) => {
-    const { state, dispatch } = useContext(CalendarContext);
+    const { 
+        state, 
+        dispatch, 
+        style, 
+        setStyle 
+    } = useContext(CalendarContext);
     const { date, events } = state;
+    const { primaryColor, backgroundColor} = style;
 
     useEffect(() => {
         dispatch({ type: ActionType.SET_DATA, data: props.data ?? { date: new Date(), events: [] }});
@@ -39,8 +45,10 @@ const Calendar = (props: ICalendarProps) => {
 
     const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)
     const locale = props.locale ?? Locale.EN;
-    const backgroundColor = props.backgroundColor ?? 'white';
-    const color = props.primaryColor ?? 'black';
+    setStyle({
+        backgroundColor: props.backgroundColor ?? 'white',
+        primaryColor: props.primaryColor ?? 'black',
+    })
 
     //Calculate some date stuff
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
@@ -49,7 +57,7 @@ const Calendar = (props: ICalendarProps) => {
 
     return (
         <div className={styles.container} style={{
-            color: color,
+            color: primaryColor,
             backgroundColor: backgroundColor,
             border: props.border ?? '1px solid black',
             borderRadius: props.borderRadius ?? '2em',
@@ -58,9 +66,9 @@ const Calendar = (props: ICalendarProps) => {
             {props.data &&
                 <>
                 <div className={styles.header}>
-                    <div className={styles.buttongroup} style={{borderColor: color}}>
-                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => dispatch({type: ActionType.SET_DATE,date: new Date()})}>{Localization[locale].buttons.today}</button>
-                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => {
+                    <div className={styles.buttongroup} style={{borderColor: primaryColor}}>
+                        <button style={{backgroundColor: backgroundColor, color: primaryColor}} onClick={() => dispatch({type: ActionType.SET_DATE,date: new Date()})}>{Localization[locale].buttons.today}</button>
+                        <button style={{backgroundColor: backgroundColor, color: primaryColor}} onClick={() => {
                             switch (mode) {
                                 case CalendarMode.MONTH:
                                     dispatch({type: ActionType.SET_MONTH, month: date.getMonth() - 1});
@@ -75,7 +83,7 @@ const Calendar = (props: ICalendarProps) => {
                                     break;
                             }
                         }}>-</button>
-                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => {
+                        <button style={{backgroundColor: backgroundColor, color: primaryColor}} onClick={() => {
                             switch (mode) {
                                 case CalendarMode.MONTH:
                                     dispatch({type: ActionType.SET_MONTH, month: date.getMonth() + 1});
@@ -93,9 +101,9 @@ const Calendar = (props: ICalendarProps) => {
                     </div>
                     <div>{`${Localization[locale].months[date?.getMonth() ?? 0]} ${date?.getFullYear()}`}</div>
                     <div>
-                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setMode(CalendarMode.MONTH)}>{Localization[locale].buttons.month}</button>
-                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setMode(CalendarMode.WEEK)}>{Localization[locale].buttons.week}</button>
-                        <button style={{backgroundColor: backgroundColor, color: color}} onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</button>
+                        <button style={{backgroundColor: backgroundColor, color: primaryColor}} onClick={() => setMode(CalendarMode.MONTH)}>{Localization[locale].buttons.month}</button>
+                        <button style={{backgroundColor: backgroundColor, color: primaryColor}} onClick={() => setMode(CalendarMode.WEEK)}>{Localization[locale].buttons.week}</button>
+                        <button style={{backgroundColor: backgroundColor, color: primaryColor}} onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</button>
                     </div>
                 </div>
                 <div>
