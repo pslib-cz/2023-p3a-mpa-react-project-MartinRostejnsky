@@ -3,6 +3,7 @@ import styles from './Calendar.module.css';
 import { ActionType, CalendarContext, CalendarProvider } from './Context';
 import {Button,ButtonGroup} from './Buttons';
 import { Locale, Localization } from './Localization';
+import { DateIndicator, Header } from './Parts';
 
 export interface ICalendarEvent {
     start: Date;
@@ -70,7 +71,7 @@ const Calendar = (props: ICalendarProps) => {
         }}>
             {props.data &&
                 <>
-                <div className={styles.header}>
+                <Header>
                     <ButtonGroup>
                         <Button onClick={() => dispatch({type: ActionType.SET_DATE,date: new Date()})}>{Localization[locale].buttons.today}</Button>
                         <Button onClick={() => {
@@ -104,13 +105,13 @@ const Calendar = (props: ICalendarProps) => {
                             }
                         }}>+</Button>
                     </ButtonGroup>
-                    <div>{`${Localization[locale].months[date?.getMonth() ?? 0]} ${date?.getFullYear()}`}</div>
+                    <DateIndicator />
                     <ButtonGroup>
                         <Button onClick={() => setMode(CalendarMode.MONTH)}>{Localization[locale].buttons.month}</Button>
                         <Button onClick={() => setMode(CalendarMode.WEEK)}>{Localization[locale].buttons.week}</Button>
                         <Button onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</Button>
                     </ButtonGroup>
-                </div>
+                </Header>
                 <div>
                     <table className={styles.table} style={{
                         border: '1px solid black',

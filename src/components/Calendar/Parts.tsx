@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Localization } from './Localization';
 import { CalendarContext } from './Context';
+import styles from './Calendar.module.css';
 
 const DateIndicator = () => {
     const { 
@@ -12,4 +13,10 @@ const DateIndicator = () => {
     )
 }
 
-export { DateIndicator };
+const Header = ({children}: {children: React.ReactNode}) => { 
+    return (
+        <div className={styles.header}>{children}</div>
+    )
+}
+
+export { DateIndicator, Header };
