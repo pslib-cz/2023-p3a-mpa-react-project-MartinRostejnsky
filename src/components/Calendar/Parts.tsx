@@ -19,4 +19,25 @@ const Header = ({children}: {children: React.ReactNode}) => {
     )
 }
 
-export { DateIndicator, Header };
+const TableHead = () => {
+    const { 
+        locale,
+    } = useContext(CalendarContext);
+    return (
+        <div className={styles.table__head}>
+            {Localization[locale].days.map((day, index) => (
+                <div key={index}>
+                    <p>{day}</p>
+                </div>
+        ))}
+        </div>
+    )
+}
+
+const Calendar = ({children}: {children: React.ReactNode}) => {
+    return (
+        <div className={styles.calendar}>{children}</div>
+    )
+}
+
+export { DateIndicator, Header, TableHead, Calendar};

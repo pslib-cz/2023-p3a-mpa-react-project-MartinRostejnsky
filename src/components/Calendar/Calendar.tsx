@@ -3,7 +3,7 @@ import styles from './Calendar.module.css';
 import { ActionType, CalendarContext, CalendarProvider } from './Context';
 import {Button,ButtonGroup} from './Buttons';
 import { Locale, Localization } from './Localization';
-import { DateIndicator, Header } from './Parts';
+import { DateIndicator, Header, Calendar as CalendarComponent, TableHead } from './Parts';
 
 export interface ICalendarEvent {
     start: Date;
@@ -112,19 +112,9 @@ const Calendar = (props: ICalendarProps) => {
                         <Button onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</Button>
                     </ButtonGroup>
                 </Header>
-                <div>
-                    <table className={styles.table} style={{
-                        border: '1px solid black',
-                    }}>
-                        <thead>
-                            <tr>
-                                {Localization[locale].days.map((day, index) => (
-                                    <th key={index}>{day}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+                <CalendarComponent>
+                    <TableHead />
+                </CalendarComponent>
                 </>
                 
             }
