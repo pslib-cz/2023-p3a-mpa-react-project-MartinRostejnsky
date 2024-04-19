@@ -74,11 +74,6 @@ const reducer = (state: ICalendarData, action: ReducerAction) => {
                 ...state,
                 date: new Date(state.date.getFullYear(), action.month),
             };
-        case ActionType.SET_WEEK:
-            return {
-                ...state,
-                date: new Date(state.date.getFullYear(), state.date.getMonth(), action.week * 7),
-            };
         case ActionType.SET_DAY:
             return {
                 ...state,
@@ -95,7 +90,6 @@ type ReducerAction =
 { type: ActionType.SET_DATA, data: ICalendarData } |
 { type: ActionType.SET_DATE, date: Date } |
 { type: ActionType.SET_MONTH, month: number } |
-{ type: ActionType.SET_WEEK, week: number } |
 { type: ActionType.SET_DAY, day: number };
 
 export enum ActionType {
@@ -104,6 +98,5 @@ export enum ActionType {
     SET_DATA = 'SET_DATA',
     SET_DATE = 'SET_DATE',
     SET_MONTH = 'SET_MONTH',
-    SET_WEEK = 'SET_WEEK',
     SET_DAY = 'SET_DAY',
 }

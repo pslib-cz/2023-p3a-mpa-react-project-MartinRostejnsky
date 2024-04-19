@@ -43,13 +43,16 @@ const Calendar = (props: ICalendarProps) => {
     useEffect(() => {
         dispatch({ type: ActionType.SET_DATA, data: props.data ?? { date: new Date(), events: [] }});
     }, [props.data])
+    useEffect(() => {
+        setStyle({
+            primaryColor: props.primaryColor ?? 'black',
+            backgroundColor: props.backgroundColor ?? 'white',
+        });
+    }, [props]);
 
     const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)
     const locale = props.locale ?? Locale.EN;
-    setStyle({
-        backgroundColor: props.backgroundColor ?? 'white',
-        primaryColor: props.primaryColor ?? 'black',
-    })
+    
 
     //Calculate some date stuff
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
@@ -75,7 +78,7 @@ const Calendar = (props: ICalendarProps) => {
                                     dispatch({type: ActionType.SET_MONTH, month: date.getMonth() - 1});
                                     break;
                                 case CalendarMode.WEEK:
-                                    dispatch({type: ActionType.SET_WEEK, week: date.getDate() - 7});
+                                    dispatch({type: ActionType.SET_DAY, day: date.getDate() - 7});
                                     break;
                                 case CalendarMode.DAY:
                                     dispatch({type: ActionType.SET_DAY, day: date.getDate() - 1});
@@ -90,7 +93,7 @@ const Calendar = (props: ICalendarProps) => {
                                     dispatch({type: ActionType.SET_MONTH, month: date.getMonth() + 1});
                                     break;
                                 case CalendarMode.WEEK:
-                                    dispatch({type: ActionType.SET_WEEK, week: date.getDate() + 7});
+                                    dispatch({type: ActionType.SET_DAY, day: date.getDate() + 7});
                                     break;
                                 case CalendarMode.DAY:
                                     dispatch({type: ActionType.SET_DAY, day: date.getDate() + 1});

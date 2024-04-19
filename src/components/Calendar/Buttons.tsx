@@ -1,6 +1,5 @@
 import React from "react";
 import { useContext } from "react";
-import { Calendar } from ".";
 import { CalendarContext } from "./Context";
 
 const Button = ({children, onClick}: {children: React.ReactNode, onClick?: React.MouseEventHandler<HTMLButtonElement>}) => {
