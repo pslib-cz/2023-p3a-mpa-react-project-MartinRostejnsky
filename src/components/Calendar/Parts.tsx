@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Localization } from './Localization';
-import { CalendarContext } from './Context';
+import { ActionType, CalendarContext } from './Context';
 import styles from './Calendar.module.css';
 
 const DateIndicator = () => {
@@ -43,11 +43,17 @@ const TableBody = ({children}: {children: React.ReactNode}) => {
 
 const TableField = ({date}: {date: Date}) => {
     const {
-        state: { date: currentDate }
+        state: { date: currentDate },
+        dispatch,
     } = useContext(CalendarContext);
-    console.log(date.getMonth(), currentDate.getMonth());
+    const current = date.getMonth() === currentDate.getMonth();
     return (
-        <div className={styles.table__field} style={{backgroundColor: date.getMonth() !== currentDate.getMonth() ? "gray" : "white"}}>{date.getDate()}</div>
+        <div onClick={() => {
+            console.log(current);
+            if (!current) {
+                dispatch({type: ActionType.SET_DATE, date: date});
+            }
+        }} className={styles.table__field} style={{backgroundColor: !current ? "gray" : "white"}}>{date.getDate()}</div>
     )
 }
 
