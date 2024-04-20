@@ -119,7 +119,7 @@ const Calendar = (props: ICalendarProps) => {
                     <TableBody>
                         {days.map((day, index) => {
                             return (
-                                <TableField key={index} day={day.getDate()} />
+                                <TableField key={index} date={day} />
                             )
                         })}
                     </TableBody>

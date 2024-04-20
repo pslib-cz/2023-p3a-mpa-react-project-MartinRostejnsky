@@ -41,9 +41,13 @@ const TableBody = ({children}: {children: React.ReactNode}) => {
 
 }
 
-const TableField = ({day}: {day: number}) => {
+const TableField = ({date}: {date: Date}) => {
+    const {
+        state: { date: currentDate }
+    } = useContext(CalendarContext);
+    console.log(date.getMonth(), currentDate.getMonth());
     return (
-        <div className={styles.table__field}>{day}</div>
+        <div className={styles.table__field} style={{backgroundColor: date.getMonth() !== currentDate.getMonth() ? "gray" : "white"}}>{date.getDate()}</div>
     )
 }
 
