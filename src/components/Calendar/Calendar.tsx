@@ -131,7 +131,7 @@ const Calendar = (props: ICalendarProps) => {
                 <div>
                     <p style={
                         {
-                            color: props.primaryColor ?? 'black',
+                            color: primaryColor,
                             fontSize: '2em',
                             fontWeight: 'bold',
                         }
