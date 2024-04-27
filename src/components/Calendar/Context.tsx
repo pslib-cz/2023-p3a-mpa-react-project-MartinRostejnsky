@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useMemo, useReducer, useState } from 'react';
-import { ICalendarData, ICalendarEvent } from './Calendar';
+import { ICalendarData, ICalendarEvent, IInternalCalendarEvent } from './Calendar';
 import { Locale } from './Localization';
 
 interface CalendarStyle {
@@ -43,7 +43,9 @@ export interface CalendarProviderProps {
 export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, {
         date: new Date(),
-        events: [],
+        events: [
+            { title: "fotoaparat", start: new Date('2024-04-26'), end: new Date('2024-04-29'), row: 0 },
+        ],
     });
 
     const [style, setStyle] = useState<CalendarStyle>({});
@@ -130,7 +132,7 @@ const reducer = (state: ICalendarData, action: ReducerAction) => {
 };
 
 type ReducerAction = 
-{ type: ActionType.ADD_EVENT, event: ICalendarEvent } |
+{ type: ActionType.ADD_EVENT, event: IInternalCalendarEvent } |
 { type: ActionType.CLEAR_EVENTS } |
 { type: ActionType.SET_DATA, data: ICalendarData } |
 { type: ActionType.SET_DATE, date: Date } |

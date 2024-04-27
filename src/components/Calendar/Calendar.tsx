@@ -6,13 +6,18 @@ import { Locale, Localization } from './Localization';
 import { DateIndicator, Header, Calendar as CalendarComponent, TableHead, TableBody, TableField } from './Parts';
 
 export interface ICalendarEvent {
+    title: string;
     start: Date;
     end: Date;
 }
 
+export interface IInternalCalendarEvent extends ICalendarEvent {
+    row: number;
+}
+
 export interface ICalendarData {
     date: Date;
-    events: ICalendarEvent[];
+    events: IInternalCalendarEvent[];
 }
 
 interface ICalendarProps {

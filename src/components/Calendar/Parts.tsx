@@ -47,21 +47,13 @@ const TableField = ({date}: {date: Date}) => {
         dispatch,
     } = useContext(CalendarContext);
     const current = date.getMonth() === currentDate.getMonth();
-    if (current) {
-        return (
-            <div className={styles.table__field}>
-                <p>{date.getDate()}</p>    
-            </div>
-        )
-    } else {
-        return (
-            <div onClick={() => {
-                dispatch({type: ActionType.SET_DATE, date: date});
-            }} className={`${styles.table__field} ${styles["table__field--inactive"]}`}>
-                <p>{date.getDate()}</p>
-            </div>
-        )
-    }
+    return (
+        <div onClick={!current ? () => {
+            dispatch({type: ActionType.SET_DATE, date: date});
+        } : undefined} className={`${styles.table__field} ${current ? '' : styles["table__field--inactive"]}`}>
+            <p>{date.getDate()}</p>
+        </div>
+    )
 }
 
 const Calendar = ({children}: {children: React.ReactNode}) => {
