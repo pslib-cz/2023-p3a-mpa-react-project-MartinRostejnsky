@@ -49,10 +49,7 @@ const TableField = ({date}: {date: Date}) => {
     const current = date.getMonth() === currentDate.getMonth();
     return (
         <div onClick={() => {
-            console.log(current);
-            if (!current) {
-                dispatch({type: ActionType.SET_DATE, date: date});
-            }
+            dispatch({type: ActionType.SET_DATE, date: date});
         }} className={styles.table__field} style={{backgroundColor: !current ? "gray" : "white"}}>{date.getDate()}</div>
     )
 }

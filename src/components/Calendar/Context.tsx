@@ -67,8 +67,12 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
         // Calculate days using adjustedFirstDay
         const newDays = [];
         const startDay = -adjustedFirstDay;  
-        const totalDaysDisplayed = startDay + monthLength + (7 - ((monthLength + adjustedFirstDay) % 7)) % 7;
-    
+        let totalDaysDisplayed = startDay + monthLength;
+
+// Adjust totalDaysDisplayed to be divisible by 7
+while ((totalDaysDisplayed + adjustedFirstDay) % 7 !== 0) {
+    totalDaysDisplayed++;
+}
         for (let i = startDay; i < totalDaysDisplayed; i++) {
             newDays.push(new Date(state.date.getFullYear(), state.date.getMonth(), i + 1));
         }
