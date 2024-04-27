@@ -13,6 +13,7 @@ export interface ICalendarEvent {
 
 export interface IInternalCalendarEvent extends ICalendarEvent {
     row: number;
+    color: string;
 }
 
 export interface ICalendarData {
@@ -51,7 +52,11 @@ const Calendar = (props: ICalendarProps) => {
     const { primaryColor, backgroundColor} = style;
 
     useEffect(() => {
-        dispatch({ type: ActionType.SET_DATA, data: props.data ?? { date: new Date(), events: [] }});
+        dispatch({ type: ActionType.SET_DATA, data: /*props.data ?? */{ date: new Date(), events: [
+            { title: "fotoaparat", start: new Date('2024-04-26'), end: new Date('2024-04-29'), row: 0, color: 'red'},
+            { title: "fotoaparat2", start: new Date('2024-04-17'), end: new Date('2024-04-19'), row: 0, color: 'blue'},
+            { title: "fotoaparat3", start: new Date('2024-04-24'), end: new Date('2024-04-28'), row: 1, color: 'green'},
+        ] }});
     }, [props.data])
     useEffect(() => {
         setStyle({
@@ -61,12 +66,7 @@ const Calendar = (props: ICalendarProps) => {
         setLocale(props.locale ?? Locale.EN);
     }, [props]);
 
-    const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)    
-    //Calculate some date stuff
-
-    useEffect(() => {
-        console.log(days)
-    }, [days]);
+    const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)
 
     return (
         <div className={styles.container} style={{

@@ -43,15 +43,36 @@ const TableBody = ({children}: {children: React.ReactNode}) => {
 
 const TableField = ({date}: {date: Date}) => {
     const {
-        state: { date: currentDate },
+        state: { date: currentDate, events: calendarEvents },
         dispatch,
     } = useContext(CalendarContext);
+
     const current = date.getMonth() === currentDate.getMonth();
+
+    const sortedEvents = calendarEvents.sort((a, b) => a.row - b.row);
+    const lastRow = sortedEvents.length > 0 ? sortedEvents[sortedEvents.length - 1].row : 0;
+    const currentEvents = sortedEvents.filter(event => date <= event.end && date >= event.start);
+
+    console.log(date)
+    console.log(calendarEvents)
+    console.log(currentEvents)
+
     return (
         <div onClick={!current ? () => {
             dispatch({type: ActionType.SET_DATE, date: date});
         } : undefined} className={`${styles.table__field} ${current ? '' : styles["table__field--inactive"]}`}>
             <p>{date.getDate()}</p>
+            {currentEvents.length > 0 && Array.from({ length: lastRow+1 }).map((_, index) => { 
+                const currentEvent = currentEvents.find(event => event.row === index);
+                const test = (
+                    <div 
+                    className={styles.table__field__event} 
+                    style={{backgroundColor: currentEvent?.color, order: index}} key={index}>{currentEvent?.title}</div>
+                )
+                console.log(test)
+                console.log(index)
+                console.log(currentEvent)
+                return test; })}
         </div>
     )
 }

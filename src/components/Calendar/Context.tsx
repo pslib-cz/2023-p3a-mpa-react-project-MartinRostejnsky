@@ -43,10 +43,10 @@ export interface CalendarProviderProps {
 export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, {
         date: new Date(),
-        events: [
-            { title: "fotoaparat", start: new Date('2024-04-26'), end: new Date('2024-04-29'), row: 0 },
-        ],
+        events: [],
     });
+
+    console.log(state.events)
 
     const [style, setStyle] = useState<CalendarStyle>({});
     const [locale, setLocale] = useState(Locale.EN);
@@ -71,10 +71,10 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
         const startDay = -adjustedFirstDay;  
         let totalDaysDisplayed = startDay + monthLength;
 
-// Adjust totalDaysDisplayed to be divisible by 7
-while ((totalDaysDisplayed + adjustedFirstDay) % 7 !== 0) {
-    totalDaysDisplayed++;
-}
+        // Adjust totalDaysDisplayed to be divisible by 7
+        while ((totalDaysDisplayed + adjustedFirstDay) % 7 !== 0) {
+            totalDaysDisplayed++;
+        }
         for (let i = startDay; i < totalDaysDisplayed; i++) {
             newDays.push(new Date(state.date.getFullYear(), state.date.getMonth(), i + 1));
         }

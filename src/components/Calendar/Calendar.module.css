@@ -102,9 +102,10 @@ p {
 }
 .table__field {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
-    padding: 1em;
+    padding: .5em;
     border-right: var(--standard-border);
     border-top: var(--standard-border);
     background-color: transparent;
@@ -126,4 +127,9 @@ p {
 .table__field--inactive {
     color: #ccc;
     cursor: pointer;
+}
+
+.table__field__event {
+    height: 2em;
+    width: 100%;
 }
