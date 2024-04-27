@@ -51,7 +51,7 @@ const Calendar = (props: ICalendarProps) => {
     useEffect(() => {
         setStyle({
             primaryColor: props.primaryColor ?? 'black',
-            backgroundColor: props.backgroundColor ?? 'white',
+            backgroundColor: props.backgroundColor ?? 'transparent',
         });
         setLocale(props.locale ?? Locale.EN);
     }, [props]);
@@ -67,8 +67,8 @@ const Calendar = (props: ICalendarProps) => {
         <div className={styles.container} style={{
             color: primaryColor,
             backgroundColor: backgroundColor,
-            border: props.border ?? '1px solid black',
-            borderRadius: props.borderRadius ?? '2em',
+            border: props.border ?? '1px solid #ccc',
+            borderRadius: props.borderRadius ?? '.5em',
             boxShadow: props.boxShadow ?? '0 0 10px rgba(0, 0, 0, 0.1)',
         }}>
             {props.data &&
@@ -90,7 +90,7 @@ const Calendar = (props: ICalendarProps) => {
                                 default:
                                     break;
                             }
-                        }}>-</Button>
+                        }}>&lt;</Button>
                         <Button onClick={() => {
                             switch (mode) {
                                 case CalendarMode.MONTH:
@@ -105,7 +105,7 @@ const Calendar = (props: ICalendarProps) => {
                                 default:
                                     break;
                             }
-                        }}>+</Button>
+                        }}>&gt;</Button>
                     </ButtonGroup>
                     <DateIndicator />
                     <ButtonGroup>

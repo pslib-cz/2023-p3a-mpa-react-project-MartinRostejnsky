@@ -9,7 +9,7 @@ const DateIndicator = () => {
         state: { date }
     } = useContext(CalendarContext);
     return (
-        <div>{`${Localization[locale].months[date?.getMonth() ?? 0]} ${date?.getFullYear()}`}</div>
+        <div><p className={styles.header__title}>{`${Localization[locale].months[date?.getMonth() ?? 0]} ${date?.getFullYear()}`}</p></div>
     )
 }
 
