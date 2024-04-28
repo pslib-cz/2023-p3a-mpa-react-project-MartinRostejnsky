@@ -81,7 +81,7 @@ p {
 
 .table__head, .table__body {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(4em,1fr));
     width: 100%;
     border-collapse: collapse;
 }
@@ -105,12 +105,13 @@ p {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    padding: .5em;
+    /*padding: .5em;*/
     border-right: var(--standard-border);
     border-top: var(--standard-border);
     background-color: transparent;
     cursor: default;
     position: relative;
+    overflow: visible;
 }
 
 .table__field > p {
@@ -131,21 +132,55 @@ p {
 
 .table__field__event {
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     justify-content: center;
     height: 2em;
-    margin-right: -1em;
     width: 100%;
+    max-width: 100%;
     color: var(--text-color);
+    z-index: 50;
+    margin-bottom: .5em;
+    padding: .5em;
+    text-align: left;
+    text-wrap: nowrap;
+    position: relative;
+}
+
+.table__field__event::after {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    width: 1em;
+    height: 100%;
+    right: -4px;
+    z-index: -1;
+}
+
+.table__field:nth-child(7n) > .table__field__event {
+    border-right: none;
 }
 
 .table__field__event--start {
+    margin-left: .5em;
+    border-left: none;
+    border-radius: .25em 0 0 .25em;
 
 }
 
 .table__field__event--end {
+    border-right: none;
+    margin-right: .5em;
+    border-radius: 0 .25em .25em 0;
+}
 
+.table__field__event--end::after {
+    content: none;
+}
+
+.table__field__event--active {
+    cursor: pointer;
 }
 
 .table__field__event:first-child {

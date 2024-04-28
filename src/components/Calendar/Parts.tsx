@@ -4,9 +4,6 @@ import { ActionType, CalendarContext } from './Context';
 import styles from './Calendar.module.css';
 
 const compareDates = (date1: Date, date2: Date) => {
-    console.log(date1.getFullYear() === date2.getFullYear(), "year");
-    console.log(date1.getMonth() === date2.getMonth(), "month");
-    console.log(date1.getDate() === date2.getDate(), "day", date1.getDate(), date2.getDate());
     return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate();
 }
 
@@ -65,10 +62,6 @@ const TableField = ({date}: {date: Date}) => {
         return currentDate >= eventStartDate && currentDate <= eventEndDate;
     });
 
-    console.log(date)
-    console.log(calendarEvents)
-    console.log(currentEvents)
-
     return (
         <div onClick={!current ? () => {
             dispatch({type: ActionType.SET_DATE, date: date});
@@ -76,16 +69,25 @@ const TableField = ({date}: {date: Date}) => {
             <p>{date.getDate()}</p>
             {currentEvents.length > 0 && Array.from({ length: lastRow+1 }).map((_, index) => { 
                 const currentEvent = currentEvents.find(event => event.row === index);
+                const isStart = currentEvent && compareDates(currentEvent.start, date);
+                const isEnd = currentEvent && compareDates(currentEvent.end, date);
                 const eventBar = (
                     <div 
-                    className={`${styles.table__field__event} ${currentEvent && compareDates(currentEvent.start, date) ? styles["table__field__event--start"] : ''}`} 
-                    style={{backgroundColor: currentEvent?.color, order: index}} key={index}>{currentEvent?.title}</div>
+                    onClick={(_e) => {
+                        console.log(currentEvent);
+                    }}
+
+                    className={`
+                    ${styles.table__field__event} 
+                    ${isStart ? styles["table__field__event--start"] : ''} 
+                    ${isEnd ? styles["table__field__event--end"] : ''}
+                    ${currentEvent ? styles["table__field__event--active"] : ''}
+                    `} 
+                    style={{backgroundColor: currentEvent?.color, order: index}}
+                    key={index}>
+                        {isStart && currentEvent?.title}
+                    </div>
                 )
-                
-                if (currentEvent && currentEvent.start) {
-                
-                    console.log(compareDates(currentEvent.start, date))
-                }
 
                 return eventBar; 
                 })}

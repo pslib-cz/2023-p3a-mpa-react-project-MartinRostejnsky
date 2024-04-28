@@ -53,7 +53,7 @@ const Calendar = (props: ICalendarProps) => {
 
     useEffect(() => {
         dispatch({ type: ActionType.SET_DATA, data: /*props.data ?? */{ date: new Date(), events: [
-            { title: "fotoaparat", start: new Date('2024-04-26'), end: new Date('2024-04-29'), row: 0, color: '#C3C9FF'},
+            { title: "fotoaparat s dlouhym nazvem", start: new Date('2024-04-26'), end: new Date('2024-05-01'), row: 0, color: '#C3C9FF'},
             { title: "fotoaparat2", start: new Date('2024-04-17'), end: new Date('2024-04-19'), row: 0, color: '#5BC0DE'},
             { title: "fotoaparat3", start: new Date('2024-04-24'), end: new Date('2024-04-28'), row: 1, color: '#83C291'},
         ] }});

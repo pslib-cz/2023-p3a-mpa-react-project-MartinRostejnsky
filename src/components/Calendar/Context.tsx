@@ -46,8 +46,6 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
         events: [],
     });
 
-    console.log(state.events)
-
     const [style, setStyle] = useState<CalendarStyle>({});
     const [locale, setLocale] = useState(Locale.EN);
 
