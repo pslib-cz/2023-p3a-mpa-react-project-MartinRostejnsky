@@ -130,6 +130,24 @@ p {
 }
 
 .table__field__event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 2em;
+    margin-right: -1em;
     width: 100%;
+    color: var(--text-color);
+}
+
+.table__field__event--start {
+
+}
+
+.table__field__event--end {
+
+}
+
+.table__field__event:first-child {
+    margin-top: 2.5em;
 }
