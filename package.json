@@ -13,7 +13,9 @@
   "author": "Martin Roštejnský",
   "license": "ISC",
   "dependencies": {
-    "react": "^18.2.0"
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "25.0.7",
@@ -29,6 +31,6 @@
   },
   "types": "dist/index.d.ts",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/pslib-cz" 
+    "registry": "https://npm.pkg.github.com/pslib-cz"
   }
 }

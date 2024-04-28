@@ -16,9 +16,13 @@ interface CalendarContextState {
     style: CalendarStyle;
     locale: Locale;
     days: Date[];
+    displayedEvent: ICalendarEvent | undefined;
+    open: boolean;
     dispatch: React.Dispatch<ReducerAction>;
     setStyle: React.Dispatch<React.SetStateAction<CalendarStyle>>;
     setLocale: React.Dispatch<React.SetStateAction<Locale>>;
+    setDisplayedEvent: React.Dispatch<React.SetStateAction<ICalendarEvent | undefined>>;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Create the context
@@ -30,9 +34,13 @@ export const CalendarContext = createContext<CalendarContextState>({
     },
     locale: Locale.EN,
     days: [],
+    displayedEvent: undefined,
+    open: true,
     setLocale: () => null,
     dispatch: () => null,
     setStyle: () => null,
+    setDisplayedEvent: () => null,
+    setOpen: () => null, 
 });
 
 // Create a provider component
@@ -45,6 +53,10 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
         date: new Date(),
         events: [],
     });
+
+    const [open, setOpen] = useState(true);
+
+    const [displayedEvent, setDisplayedEvent] = useState<ICalendarEvent | undefined>(undefined);
 
     const [style, setStyle] = useState<CalendarStyle>({});
     const [locale, setLocale] = useState(Locale.EN);
@@ -86,9 +98,13 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
             style,
             locale,
             days,
+            displayedEvent,
+            open,
             dispatch,
             setStyle,
             setLocale,
+            setDisplayedEvent,
+            setOpen,
             }}>
             {children}
         </CalendarContext.Provider>

@@ -16,7 +16,18 @@ const Localization = {
             month: 'Month',
             week: 'Week',
             day: 'Day',
+            refresh: 'Refresh',
+            open: 'Open',
+            close: 'Close',
         },
+        titles : {
+            details: 'Details',
+        },
+        property_names: {
+            item: 'Item',
+            from: 'From',
+            to: 'To',
+        }
     },
     [Locale.CZ]: {
         days: ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'],
@@ -29,7 +40,18 @@ const Localization = {
             month: 'Měsíc',
             week: 'Týden',
             day: 'Den',
+            refresh: 'Obnovit',
+            open: 'Otevřít',
+            close: 'Zavřít',
         },
+        titles : {
+            details: 'Podrobnosti',
+        },
+        property_names: { 
+            item: 'Položka', 
+            from: 'Od', 
+            to: 'Do', 
+        }
     },
     [Locale.RU]: {
         days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
@@ -42,7 +64,18 @@ const Localization = {
             month: 'Месяц',
             week: 'Неделя',
             day: 'День',
+            refresh: 'Обновить',
+            open: 'Открыть',
+            close: 'Закрыть',
         },
+        titles : {
+            details: 'Подробности',
+        },
+        property_names: { 
+            item: 'Предмет', 
+            from: 'От', 
+            to: 'До', 
+        }
     },
 };
 

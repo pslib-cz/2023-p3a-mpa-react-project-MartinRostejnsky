@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import ReactDOM from 'react-dom';
 import { Localization } from './Localization';
 import { ActionType, CalendarContext } from './Context';
 import styles from './Calendar.module.css';
@@ -49,6 +50,7 @@ const TableField = ({date}: {date: Date}) => {
     const {
         state: { date: currentDate, events: calendarEvents },
         dispatch,
+        setDisplayedEvent,
     } = useContext(CalendarContext);
 
     const current = date.getMonth() === currentDate.getMonth();
@@ -74,7 +76,8 @@ const TableField = ({date}: {date: Date}) => {
                 const eventBar = (
                     <div 
                     onClick={(_e) => {
-                        console.log(currentEvent);
+                        setDisplayedEvent(currentEvent);
+                        if (currentEvent) _e.stopPropagation();
                     }}
 
                     className={`
@@ -101,11 +104,57 @@ const Calendar = ({children}: {children: React.ReactNode}) => {
     )
 }
 
+const DetailsPortal = () => {
+    const {
+        locale,
+        displayedEvent,
+        setDisplayedEvent,
+    } 
+    = useContext(CalendarContext);
+    return (
+        displayedEvent && ReactDOM.createPortal(
+            <div 
+            onClick={() => {
+                setDisplayedEvent(undefined);
+            }}
+            className={styles.detailsportal__container}>
+                <div 
+                onClick={(_e) => {
+                    _e.stopPropagation();
+                }}
+                className={styles.detailsportal__container__window}>
+                    <p className={styles.detailsportal__container__window__title}>{Localization[locale].titles.details}</p>
+                    <div className={styles.detailsportal__container__window__content}>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td className={styles.detailsportal__container__window__content__titles}>{Localization[locale].property_names.item}:</td>
+                                    <td>{displayedEvent.title}</td>
+                                </tr>
+                                <tr>
+                                    <td className={styles.detailsportal__container__window__content__titles}>{Localization[locale].property_names.from}:</td>
+                                    <td>{displayedEvent.start.toLocaleString()}</td>
+                                </tr>
+                                <tr>
+                                    <td className={styles.detailsportal__container__window__content__titles}>{Localization[locale].property_names.to}:</td>
+                                    <td>{displayedEvent.end.toLocaleString()}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>,
+            document.body
+        )
+    )
+}
+
 export { 
     DateIndicator,
     Header,
     TableHead,
     TableBody,
     TableField,
-    Calendar
+    DetailsPortal,
+    Calendar,
 };

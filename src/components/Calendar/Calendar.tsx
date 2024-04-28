@@ -3,7 +3,7 @@ import styles from './Calendar.module.css';
 import { ActionType, CalendarContext, CalendarProvider } from './Context';
 import {Button,ButtonGroup} from './Buttons';
 import { Locale, Localization } from './Localization';
-import { DateIndicator, Header, Calendar as CalendarComponent, TableHead, TableBody, TableField } from './Parts';
+import { DateIndicator, Header, Calendar as CalendarComponent, TableHead, TableBody, TableField, DetailsPortal } from './Parts';
 
 export interface ICalendarEvent {
     title: string;
@@ -44,9 +44,11 @@ const Calendar = (props: ICalendarProps) => {
         style,
         locale,
         days,
+        open,
         dispatch, 
         setStyle,
         setLocale,
+        setOpen,
     } = useContext(CalendarContext);
     const { date } = state;
     const { primaryColor, backgroundColor} = style;
@@ -66,7 +68,7 @@ const Calendar = (props: ICalendarProps) => {
         setLocale(props.locale ?? Locale.EN);
     }, [props]);
 
-    const [mode, setMode] = useState(props.defaultMode ?? CalendarMode.MONTH)
+    const [mode, _] = useState(props.defaultMode ?? CalendarMode.MONTH)
 
     return (
         <div className={styles.container} style={{
@@ -75,6 +77,7 @@ const Calendar = (props: ICalendarProps) => {
             border: props.border ?? '1px solid #ccc',
             borderRadius: props.borderRadius ?? '.5em',
             boxShadow: props.boxShadow ?? '0 0 10px rgba(0, 0, 0, 0.1)',
+            minHeight: open ? '40em' : 'auto',
         }}>
             {props.data &&
                 <>
@@ -114,12 +117,10 @@ const Calendar = (props: ICalendarProps) => {
                     </ButtonGroup>
                     <DateIndicator />
                     <ButtonGroup>
-                        <Button onClick={() => setMode(CalendarMode.MONTH)}>{Localization[locale].buttons.month}</Button>
-                        <Button onClick={() => setMode(CalendarMode.WEEK)}>{Localization[locale].buttons.week}</Button>
-                        <Button onClick={() => setMode(CalendarMode.DAY)}>{Localization[locale].buttons.day}</Button>
+                        <Button onClick={() => setOpen(o => !o)}>{open ? Localization[locale].buttons.close : Localization[locale].buttons.open}</Button>
                     </ButtonGroup>
                 </Header>
-                <CalendarComponent>
+                {open && <CalendarComponent>
                     <TableHead />
                     <TableBody>
                         {days.map((day, index) => {
@@ -128,7 +129,7 @@ const Calendar = (props: ICalendarProps) => {
                             )
                         })}
                     </TableBody>
-                </CalendarComponent>
+                </CalendarComponent>}
                 </>
                 
             }
@@ -153,6 +154,7 @@ const CalendarWrapper : React.FC<ICalendarProps> = (props) => {
     return (
         <CalendarProvider>
             <Calendar {...props} />
+            <DetailsPortal />
         </CalendarProvider>
     );
 }
