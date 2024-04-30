@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useMemo, useReducer, useState } from 'react';
-import { ICalendarData, ICalendarEvent, IInternalCalendarEvent } from './Calendar';
+import { ICalendarData, ICalendarEvent, IInternalCalendarData, IInternalCalendarEvent } from './Calendar';
 import { Locale } from './Localization';
 
 interface CalendarStyle {
@@ -111,12 +111,12 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
     );
 };
 
-const reducer = (state: ICalendarData, action: ReducerAction) => {
+const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
     switch (action.type) {
         case ActionType.ADD_EVENT:
             return {
                 ...state,
-                events: [...state.events, action.event],
+                events: [...state.events, {...action.event, row: 0, color: 'blue'}], //TODO: actually implement
             };
         case ActionType.CLEAR_EVENTS:
             return {
@@ -124,7 +124,19 @@ const reducer = (state: ICalendarData, action: ReducerAction) => {
                 events: [],
             };
         case ActionType.SET_DATA:
-            return action.data;
+            const internalEvents = action.data.events.map((event, i) => {
+                return {
+                    ...event,
+                    start: new Date(event.start),
+                    end: new Date(event.end),
+                    row: i,
+                    color: 'blue',
+                };
+            });
+            return {
+                ...action.data,
+                events: internalEvents,
+            };
         case ActionType.SET_DATE:
             return {
                 ...state,
@@ -146,7 +158,7 @@ const reducer = (state: ICalendarData, action: ReducerAction) => {
 };
 
 type ReducerAction = 
-{ type: ActionType.ADD_EVENT, event: IInternalCalendarEvent } |
+{ type: ActionType.ADD_EVENT, event: ICalendarEvent } |
 { type: ActionType.CLEAR_EVENTS } |
 { type: ActionType.SET_DATA, data: ICalendarData } |
 { type: ActionType.SET_DATE, date: Date } |
