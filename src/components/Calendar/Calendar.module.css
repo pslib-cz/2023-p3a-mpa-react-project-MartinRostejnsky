@@ -56,12 +56,14 @@ p {
 }
 
 .buttongroup > button:first-child {
-    border-radius: 0.25em 0 0 0.25em;
+    border-top-left-radius: .25em;
+    border-bottom-left-radius: .25em;
     transform: none;
 }
 
 .buttongroup > button:last-child {
-    border-radius: 0 0.25em 0.25em 0;
+    border-top-right-radius: .25em;
+    border-bottom-right-radius: .25em;
     transform: none;
 }
 
@@ -165,14 +167,16 @@ p {
 .table__field__event--start {
     margin-left: .5em;
     border-left: none;
-    border-radius: .25em 0 0 .25em;
+    border-top-left-radius: .25em;
+    border-bottom-left-radius: .25em;
 
 }
 
 .table__field__event--end {
     border-right: none;
     margin-right: .5em;
-    border-radius: 0 .25em .25em 0;
+    border-top-right-radius: .25em;
+    border-bottom-right-radius: .25em;
 }
 
 .table__field__event--end::after {
