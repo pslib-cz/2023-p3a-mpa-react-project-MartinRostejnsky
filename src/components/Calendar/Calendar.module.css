@@ -114,6 +114,7 @@ p {
     cursor: default;
     position: relative;
     overflow: visible;
+    min-height: 2em;
 }
 
 .table__field > p {

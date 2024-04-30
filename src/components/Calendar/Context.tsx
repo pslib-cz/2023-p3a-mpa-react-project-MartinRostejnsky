@@ -12,7 +12,7 @@ interface CalendarStyle {
 
 // Define the initial state of the context
 interface CalendarContextState {
-    state: ICalendarData;
+    state: IInternalCalendarData;
     style: CalendarStyle;
     locale: Locale;
     days: Date[];
@@ -124,14 +124,41 @@ const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
                 events: [],
             };
         case ActionType.SET_DATA:
+            const calculateRow = (event: ICalendarEvent, previousEvents : IInternalCalendarEvent[]) => {
+                let row;
+                for (let i = 0; row === undefined; i++) {
+                    if (
+                        previousEvents.filter((previousEvent) => {
+                            return ((
+                                (previousEvent.start.getTime() <= event.end.getTime() &&
+                                previousEvent.start.getTime() >= event.start.getTime()) 
+                                ||
+                                (previousEvent.end.getTime() > event.end.getTime() &&
+                                previousEvent.end.getTime() < event.end.getTime())
+                                ||
+                                (previousEvent.start.getTime() < event.start.getTime() &&
+                                previousEvent.end.getTime() > event.end.getTime())
+                            ) && previousEvent.row === i);
+                        }).length === 0
+                    ) {
+                        row = i;
+                    }
+                    console.log(previousEvents);
+                }
+                return row;
+            }
+            let previousEvents : IInternalCalendarEvent[] = [];
             const internalEvents = action.data.events.map((event, i) => {
-                return {
+                const newEvent = {
                     ...event,
                     start: new Date(event.start),
                     end: new Date(event.end),
-                    row: i,
-                    color: 'blue',
+                    row: calculateRow(event, previousEvents),
+                    color: 'blue', //TODO: implement color dictionary                
                 };
+                previousEvents.push(newEvent);
+                console.log(previousEvents);
+                return newEvent;
             });
             return {
                 ...action.data,
