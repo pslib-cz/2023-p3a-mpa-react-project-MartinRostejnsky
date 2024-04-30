@@ -127,6 +127,7 @@ const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
             const calculateRow = (event: ICalendarEvent, previousEvents : IInternalCalendarEvent[]) => {
                 let row;
                 for (let i = 0; row === undefined; i++) {
+                    
                     if (
                         previousEvents.filter((previousEvent) => {
                             return ((
@@ -136,14 +137,22 @@ const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
                                 (previousEvent.end.getTime() > event.end.getTime() &&
                                 previousEvent.end.getTime() < event.end.getTime())
                                 ||
+                                (event.start.getTime() <= previousEvent.end.getTime() &&
+                                event.start.getTime() >= previousEvent.start.getTime()) 
+                                ||
+                                (event.end.getTime() > previousEvent.end.getTime() &&
+                                event.end.getTime() < previousEvent.end.getTime())
+                                ||
                                 (previousEvent.start.getTime() < event.start.getTime() &&
                                 previousEvent.end.getTime() > event.end.getTime())
+                                ||
+                                (event.start.getTime() <= previousEvent.start.getTime() &&
+                                event.end.getTime() >= previousEvent.end.getTime())
                             ) && previousEvent.row === i);
                         }).length === 0
                     ) {
                         row = i;
                     }
-                    console.log(previousEvents);
                 }
                 return row;
             }
@@ -157,7 +166,6 @@ const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
                     color: 'blue', //TODO: implement color dictionary                
                 };
                 previousEvents.push(newEvent);
-                console.log(previousEvents);
                 return newEvent;
             });
             return {
