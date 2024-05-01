@@ -127,21 +127,20 @@ const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
             const calculateRow = (event: ICalendarEvent, previousEvents : IInternalCalendarEvent[]) => {
                 let row;
                 for (let i = 0; row === undefined; i++) {
-                    
                     if (
                         previousEvents.filter((previousEvent) => {
                             return ((
                                 (previousEvent.start.getTime() <= event.end.getTime() &&
                                 previousEvent.start.getTime() >= event.start.getTime()) 
                                 ||
-                                (previousEvent.end.getTime() > event.end.getTime() &&
-                                previousEvent.end.getTime() < event.end.getTime())
+                                (previousEvent.end.getTime() >= event.end.getTime() &&
+                                previousEvent.end.getTime() <= event.end.getTime())
                                 ||
                                 (event.start.getTime() <= previousEvent.end.getTime() &&
                                 event.start.getTime() >= previousEvent.start.getTime()) 
                                 ||
-                                (event.end.getTime() > previousEvent.end.getTime() &&
-                                event.end.getTime() < previousEvent.end.getTime())
+                                (event.end.getTime() >= previousEvent.end.getTime() &&
+                                event.end.getTime() <= previousEvent.end.getTime())
                                 ||
                                 (previousEvent.start.getTime() < event.start.getTime() &&
                                 previousEvent.end.getTime() > event.end.getTime())

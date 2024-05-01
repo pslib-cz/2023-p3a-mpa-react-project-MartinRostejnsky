@@ -104,8 +104,7 @@ p {
 }
 .table__field {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
     align-items: center;
     /*padding: .5em;*/
     border-right: var(--standard-border);
