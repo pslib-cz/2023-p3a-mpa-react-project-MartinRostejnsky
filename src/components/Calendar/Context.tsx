@@ -2,6 +2,12 @@ import React, { createContext, useEffect, useMemo, useReducer, useState } from '
 import { ICalendarData, ICalendarEvent, IInternalCalendarData, IInternalCalendarEvent } from './Calendar';
 import { Locale } from './Localization';
 
+const ColorDictionary = [
+    '#C3C9FF',
+    '#5BC0DE',
+    '#83C291',
+]
+
 interface CalendarStyle {
     primaryColor?: string;
     backgroundColor?: string;
@@ -162,7 +168,7 @@ const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
                     start: new Date(event.start),
                     end: new Date(event.end),
                     row: calculateRow(event, previousEvents),
-                    color: 'blue', //TODO: implement color dictionary                
+                    color: ColorDictionary[i%ColorDictionary.length], //TODO: implement color dictionary                
                 };
                 previousEvents.push(newEvent);
                 return newEvent;
