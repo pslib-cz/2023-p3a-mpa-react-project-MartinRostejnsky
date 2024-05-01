@@ -5,10 +5,20 @@ import {Button,ButtonGroup} from './Buttons';
 import { Locale, Localization } from './Localization';
 import { DateIndicator, Header, Calendar as CalendarComponent, TableHead, TableBody, TableField, DetailsPortal } from './Parts';
 
+export class CustomProperty {
+    key: string = '';
+    value: any = '';	
+
+    toString() : string {
+        return JSON.stringify(this.value);
+    }
+}
+
 export interface ICalendarEvent {
     title: string;
     start: Date;
     end: Date;
+    customData?: CustomProperty[];
 }
 
 export interface IInternalCalendarEvent extends ICalendarEvent {

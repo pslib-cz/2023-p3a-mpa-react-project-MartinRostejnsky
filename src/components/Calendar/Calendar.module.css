@@ -106,7 +106,6 @@ p {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    /*padding: .5em;*/
     border-right: var(--standard-border);
     border-top: var(--standard-border);
     background-color: transparent;

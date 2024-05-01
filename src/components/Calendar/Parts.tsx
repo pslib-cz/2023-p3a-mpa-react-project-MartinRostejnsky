@@ -136,6 +136,12 @@ const DetailsPortal = () => {
                                     <td className={styles.detailsportal__container__window__content__titles}>{Localization[locale].property_names.to}:</td>
                                     <td>{displayedEvent.end.toLocaleString()}</td>
                                 </tr>
+                                {displayedEvent.customData?.map((customData, index) => (
+                                    <tr key={index}>
+                                        <td className={styles.detailsportal__container__window__content__titles}>{customData.key}:</td>
+                                        <td>{customData.value}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
