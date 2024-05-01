@@ -1,12 +1,7 @@
-import React, { createContext, useEffect, useMemo, useReducer, useState } from 'react';
-import { ICalendarData, ICalendarEvent, IInternalCalendarData, IInternalCalendarEvent } from './Calendar';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { Locale } from './Localization';
-
-const ColorDictionary = [
-    '#C3C9FF',
-    '#5BC0DE',
-    '#83C291',
-]
+import { reducer, ReducerAction } from './Reducer';
+import { ICalendarEvent, IInternalCalendarData } from './types';
 
 interface CalendarStyle {
     primaryColor?: string;
@@ -116,100 +111,3 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
         </CalendarContext.Provider>
     );
 };
-
-const reducer = (state: IInternalCalendarData, action: ReducerAction) => {
-    switch (action.type) {
-        case ActionType.ADD_EVENT:
-            return {
-                ...state,
-                events: [...state.events, {...action.event, row: 0, color: 'blue'}], //TODO: actually implement
-            };
-        case ActionType.CLEAR_EVENTS:
-            return {
-                ...state,
-                events: [],
-            };
-        case ActionType.SET_DATA:
-            const calculateRow = (event: ICalendarEvent, previousEvents : IInternalCalendarEvent[]) => {
-                let row;
-                for (let i = 0; row === undefined; i++) {
-                    if (
-                        previousEvents.filter((previousEvent) => {
-                            return ((
-                                (previousEvent.start.getTime() <= event.end.getTime() &&
-                                previousEvent.start.getTime() >= event.start.getTime()) 
-                                ||
-                                (previousEvent.end.getTime() >= event.end.getTime() &&
-                                previousEvent.end.getTime() <= event.end.getTime())
-                                ||
-                                (event.start.getTime() <= previousEvent.end.getTime() &&
-                                event.start.getTime() >= previousEvent.start.getTime()) 
-                                ||
-                                (event.end.getTime() >= previousEvent.end.getTime() &&
-                                event.end.getTime() <= previousEvent.end.getTime())
-                                ||
-                                (previousEvent.start.getTime() < event.start.getTime() &&
-                                previousEvent.end.getTime() > event.end.getTime())
-                                ||
-                                (event.start.getTime() <= previousEvent.start.getTime() &&
-                                event.end.getTime() >= previousEvent.end.getTime())
-                            ) && previousEvent.row === i);
-                        }).length === 0
-                    ) {
-                        row = i;
-                    }
-                }
-                return row;
-            }
-            let previousEvents : IInternalCalendarEvent[] = [];
-            const internalEvents = action.data.events.map((event, i) => {
-                const newEvent = {
-                    ...event,
-                    start: new Date(event.start),
-                    end: new Date(event.end),
-                    row: calculateRow(event, previousEvents),
-                    color: ColorDictionary[i%ColorDictionary.length], //TODO: implement color dictionary                
-                };
-                previousEvents.push(newEvent);
-                return newEvent;
-            });
-            return {
-                ...action.data,
-                events: internalEvents,
-            };
-        case ActionType.SET_DATE:
-            return {
-                ...state,
-                date: action.date,
-            };
-        case ActionType.SET_MONTH:
-            return {
-                ...state,
-                date: new Date(state.date.getFullYear(), action.month),
-            };
-        case ActionType.SET_DAY:
-            return {
-                ...state,
-                date: new Date(state.date.getFullYear(), state.date.getMonth(), action.day),
-            };
-        default:
-            return state;
-    }
-};
-
-type ReducerAction = 
-{ type: ActionType.ADD_EVENT, event: ICalendarEvent } |
-{ type: ActionType.CLEAR_EVENTS } |
-{ type: ActionType.SET_DATA, data: ICalendarData } |
-{ type: ActionType.SET_DATE, date: Date } |
-{ type: ActionType.SET_MONTH, month: number } |
-{ type: ActionType.SET_DAY, day: number };
-
-export enum ActionType {
-    ADD_EVENT = 'ADD_EVENT',
-    CLEAR_EVENTS = 'REMOVE_EVENT',
-    SET_DATA = 'SET_DATA',
-    SET_DATE = 'SET_DATE',
-    SET_MONTH = 'SET_MONTH',
-    SET_DAY = 'SET_DAY',
-}

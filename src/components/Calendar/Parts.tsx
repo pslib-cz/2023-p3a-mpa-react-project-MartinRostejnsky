@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { Localization } from './Localization';
-import { ActionType, CalendarContext } from './Context';
+import { CalendarContext } from './Context';
 import styles from './Calendar.module.css';
 import { compareDates } from './utils';
+import { ActionType } from './types';
 
 const DateIndicator = () => {
     const { 
