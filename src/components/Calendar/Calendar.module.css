@@ -227,3 +227,7 @@ p {
     font-size: 1em;
     font-weight: 600;
 }
+
+.table__field__event--start.table__field__event--end {
+    width: calc(100% - .5em);
+}
