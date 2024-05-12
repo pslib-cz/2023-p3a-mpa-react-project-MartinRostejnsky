@@ -1,6 +1,4 @@
-import { Locale } from "../Localization";
-
-enum ActionType {
+export enum ActionType {
     ADD_EVENT = 'ADD_EVENT',
     CLEAR_EVENTS = 'REMOVE_EVENT',
     SET_DATA = 'SET_DATA',
@@ -9,7 +7,7 @@ enum ActionType {
     SET_DAY = 'SET_DAY',
 }
 
-class CustomProperty {
+export class CustomProperty {
     key: string = '';
     value: any = '';	
 
@@ -18,41 +16,31 @@ class CustomProperty {
     }
 }
 
-interface ICalendarEvent {
+export interface ICalendarEvent {
     title: string;
     start: Date;
     end: Date;
     customData?: CustomProperty[];
 }
 
-interface IInternalCalendarEvent extends ICalendarEvent {
+export interface IInternalCalendarEvent extends ICalendarEvent {
     row: number;
     color: string;
 }
 
-interface ICalendarData {
+export interface ICalendarData {
     date: Date;
     events: ICalendarEvent[];
 }
 
-interface IInternalCalendarData extends ICalendarData {
+export interface IInternalCalendarData extends ICalendarData {
     events: IInternalCalendarEvent[];
 }
 
 
 
-enum CalendarMode {
+export enum CalendarMode {
     MONTH = 'month',
     WEEK = 'week',
     DAY = 'day',
 }
-
-export { 
-    ActionType,
-    CalendarMode,
-    IInternalCalendarData,
-    ICalendarData,
-    IInternalCalendarEvent,
-    ICalendarEvent,
-    CustomProperty
-};

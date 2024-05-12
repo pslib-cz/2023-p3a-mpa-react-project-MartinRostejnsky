@@ -65,7 +65,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
     const [days, setDays] = useState<Date[]>([]);
 
     //Calculate some date stuff
-    const [firstDay, setFirstDay] = useState(new Date(state.date.getFullYear(), state.date.getMonth(), 1).getDay());
+    const [_firstDay, setFirstDay] = useState(new Date(state.date.getFullYear(), state.date.getMonth(), 1).getDay());
     const [monthLength, setMonthLength] = useState(new Date(state.date.getFullYear(), state.date.getMonth() + 1, 0).getDate());
     const [lastMonthLength, setLastMonthLength] = useState(new Date(state.date.getFullYear(), state.date.getMonth(), 0).getDate());
 
