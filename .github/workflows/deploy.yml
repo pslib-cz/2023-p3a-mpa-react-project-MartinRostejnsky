@@ -20,20 +20,16 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: |
-          cd ./preview
-          npm install
+        run: npm install
 
       - name: Build project
-        run: |
-          cd ./preview
-          npm run build
+        run: npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
         with:
           name: production-files
-          path: ./preview/dist
+          path: ./dist
 
   deploy:
     name: Deploy
