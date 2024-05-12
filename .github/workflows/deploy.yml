@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 16
 
+      - name: Change directory
+        run: cd ./preview
+
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
