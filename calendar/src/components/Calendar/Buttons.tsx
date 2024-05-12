@@ -1,5 +1,4 @@
-import React from "react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { CalendarContext } from "./Context";
 import styles from './Calendar.module.css';
 
