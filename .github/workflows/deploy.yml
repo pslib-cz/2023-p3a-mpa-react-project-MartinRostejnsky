@@ -19,20 +19,21 @@ jobs:
         with:
           node-version: 20
 
-      - name: Change directory
-        run: cd ./preview
-
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: |
+          cd ./preview
+          npx bahmutov/npm-install@v1
 
       - name: Build project
-        run: npm run build
+        run: |
+          cd ./preview
+          npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
         with:
           name: production-files
-          path: ./dist
+          path: ./preview/dist
 
   deploy:
     name: Deploy
