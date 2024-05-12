@@ -1,4 +1,4 @@
-import { Calendar, Locale } from '../../calendar/src';
+import { Calendar, Locale } from './components';
 import './App.css';
 
 function App() {
